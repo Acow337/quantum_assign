@@ -135,30 +135,6 @@ Accuracy: 0.9074
 Training time: 0.0031 seconds
 Prediction time: 0.0010 seconds
 Accuracy: 0.8981
-Traceback (most recent call last):
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
-    self.figure.set_size_inches(width, height, forward=False)
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
-    raise ValueError(f'figure size must be positive finite not {size}')
-ValueError: figure size must be positive finite not [10.   -0.24]
-Traceback (most recent call last):
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
-    self.figure.set_size_inches(width, height, forward=False)
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
-    raise ValueError(f'figure size must be positive finite not {size}')
-ValueError: figure size must be positive finite not [10.   -0.35]
-Traceback (most recent call last):
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
-    self.figure.set_size_inches(width, height, forward=False)
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
-    raise ValueError(f'figure size must be positive finite not {size}')
-ValueError: figure size must be positive finite not [10.   -0.25]
-Traceback (most recent call last):
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
-    self.figure.set_size_inches(width, height, forward=False)
-  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
-    raise ValueError(f'figure size must be positive finite not {size}')
-ValueError: figure size must be positive finite not [10.   -0.09]
 
 --- Classical SVM (poly kernel) ---
 Training time: 0.0025 seconds
