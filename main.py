@@ -20,14 +20,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Try to import QSVM components with fallback
-try:
-    from qiskit_machine_learning.algorithms import QSVC
-    from qiskit_machine_learning.kernels import QuantumKernel
-    from qiskit.circuit.library import ZZFeatureMap
-    QISKIT_ML_AVAILABLE = True
-except ImportError:
-    print("Warning: qiskit-machine-learning not available. QSVM comparison will be skipped.")
-    QISKIT_ML_AVAILABLE = False
+
+from qiskit_machine_learning.algorithms import QSVC
+from qiskit_machine_learning.kernels import FidelityQuantumKernel as QuantumKernel
+from qiskit.circuit.library import ZZFeatureMap
+
 
 try:
     from qiskit.circuit.library import ZZFeatureMap
@@ -204,29 +201,11 @@ def prepare_data(digit1, digit2):
     
     return X_scaled, y, pca, scaler
 
-def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None):
-    """Plot decision boundary and data points"""
+def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None, mesh_pred=None):
+    """Plot only data points (no decision boundary)"""
     plt.figure(figsize=(10, 8))
     
-    # Create mesh
-    h = 0.02
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    
-    # Make predictions
-    mesh_points = np.c_[xx.ravel(), yy.ravel()]
-    try:
-        Z = classifier.predict(mesh_points)
-        Z = Z.reshape(xx.shape)
-        
-        # Plot decision boundary
-        plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.RdYlBu)
-    except Exception as e:
-        print(f"Could not plot decision boundary: {e}")
-    
-    # Plot data points
+    # 仅绘制数据点
     scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.RdYlBu, edgecolors='black')
     plt.colorbar(scatter)
     plt.title(title)
@@ -235,11 +214,12 @@ def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None):
     
     if pca_explained_ratio is not None:
         plt.text(0.02, 0.98, f'PCA Explained Variance: {pca_explained_ratio[0]:.3f}, {pca_explained_ratio[1]:.3f}', 
-                transform=plt.gca().transAxes, verticalalignment='top',
-                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+                 transform=plt.gca().transAxes, verticalalignment='top',
+                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
     
     plt.grid(True, alpha=0.3)
     plt.show()
+
 
 def compare_classifiers(X, y, digit1, digit2, pca):
     """Compare QSVM and CSVM performance"""
@@ -286,10 +266,6 @@ def compare_classifiers(X, y, digit1, digit2, pca):
     
     # Quantum SVM
     print(f"\n--- Quantum SVM ---")
-    if not QISKIT_ML_AVAILABLE:
-        print("Qiskit Machine Learning not available. Skipping QSVM comparison.")
-        print("To install: pip install qiskit-machine-learning")
-        return results
         
     try:
         # Create quantum feature map
@@ -450,4 +426,5 @@ print("  - Classical optimizations are highly mature compared to quantum impleme
 
 print(f"\n{'='*80}")
 print("ASSIGNMENT COMPLETED SUCCESSFULLY")
-print(f"{'='*80}")
+print(f"{'='*80}") 
+

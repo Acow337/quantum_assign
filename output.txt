@@ -1,0 +1,229 @@
+================================================================================
+ASSIGNMENT 3: QUANTUM COMPUTING IMPLEMENTATION
+Deutsch Algorithm and Quantum SVM
+================================================================================
+
+PART 1: DEUTSCH ALGORITHM IMPLEMENTATION
+==================================================
+
+--- CASE 1 ---
+Circuit created:
+     ┌───┐┌───┐┌─┐
+q_0: ┤ H ├┤ H ├┤M├
+     ├───┤├───┤└╥┘
+q_1: ┤ X ├┤ H ├─╫─
+     └───┘└───┘ ║ 
+c: 1/═══════════╩═
+                0 
+
+Analyzing Case 1:
+State before final H gate: Statevector([ 0.5+0.j,  0.5+0.j, -0.5+0.j, -0.5+0.j],
+            dims=(2, 2))
+State after final H gate: Statevector([ 7.07106781e-01+0.j,  2.29934717e-17+0.j, -7.07106781e-01+0.j,
+             -2.29934717e-17+0.j],
+            dims=(2, 2))
+Measurement results: {'0': 1024}
+Result: CONSTANT function
+
+--- CASE 2 ---
+Circuit created:
+     ┌───┐┌───┐     ┌─┐
+q_0: ┤ H ├┤ H ├─────┤M├
+     ├───┤├───┤┌───┐└╥┘
+q_1: ┤ X ├┤ H ├┤ X ├─╫─
+     └───┘└───┘└───┘ ║ 
+c: 1/════════════════╩═
+                     0 
+
+Analyzing Case 2:
+State before final H gate: Statevector([-0.5+0.j, -0.5+0.j,  0.5+0.j,  0.5+0.j],
+            dims=(2, 2))
+State after final H gate: Statevector([-7.07106781e-01+0.j, -2.29934717e-17+0.j,  7.07106781e-01+0.j,
+              2.29934717e-17+0.j],
+            dims=(2, 2))
+Measurement results: {'0': 1024}
+Result: CONSTANT function
+
+--- CASE 3 ---
+Circuit created:
+     ┌───┐          ┌───┐┌─┐
+q_0: ┤ H ├───────■──┤ H ├┤M├
+     ├───┤┌───┐┌─┴─┐└───┘└╥┘
+q_1: ┤ X ├┤ H ├┤ X ├──────╫─
+     └───┘└───┘└───┘      ║ 
+c: 1/═════════════════════╩═
+                          0 
+
+Analyzing Case 3:
+State before final H gate: Statevector([ 0.5+0.j, -0.5+0.j, -0.5+0.j,  0.5+0.j],
+            dims=(2, 2))
+State after final H gate: Statevector([ 2.29934717e-17+0.j,  7.07106781e-01+0.j, -2.29934717e-17+0.j,
+             -7.07106781e-01+0.j],
+            dims=(2, 2))
+Measurement results: {'1': 1024}
+Result: BALANCED function
+
+--- CASE 4 ---
+Circuit created:
+     ┌───┐┌───┐     ┌───┐┌───┐┌─┐
+q_0: ┤ H ├┤ X ├──■──┤ X ├┤ H ├┤M├
+     ├───┤├───┤┌─┴─┐└───┘└───┘└╥┘
+q_1: ┤ X ├┤ H ├┤ X ├───────────╫─
+     └───┘└───┘└───┘           ║ 
+c: 1/══════════════════════════╩═
+                               0 
+
+Analyzing Case 4:
+State before final H gate: Statevector([-0.5+0.j,  0.5+0.j,  0.5+0.j, -0.5+0.j],
+            dims=(2, 2))
+State after final H gate: Statevector([-2.29934717e-17+0.j, -7.07106781e-01+0.j,  2.29934717e-17+0.j,
+              7.07106781e-01+0.j],
+            dims=(2, 2))
+Measurement results: {'1': 1024}
+Result: BALANCED function
+
+DEUTSCH ALGORITHM ANALYSIS:
+Cases 1 & 2: Constant functions → Measure |0⟩
+Cases 3 & 4: Balanced functions → Measure |1⟩
+The algorithm determines function type with just ONE query!
+
+
+PART 2: QSVM vs CSVM COMPARISON
+==================================================
+Original data shape: (1797, 64)
+
+============================================================
+ANALYZING DIGITS 3 vs 4
+============================================================
+
+Comparing classifiers for digits 3 vs 4
+Dataset size: 364 samples
+
+--- Classical SVM (linear kernel) ---
+Training time: 0.0014 seconds
+Prediction time: 0.0004 seconds
+Accuracy: 0.9818
+
+--- Classical SVM (rbf kernel) ---
+Training time: 0.0019 seconds
+Prediction time: 0.0006 seconds
+Accuracy: 0.9909
+
+--- Classical SVM (poly kernel) ---
+Training time: 0.0025 seconds
+Prediction time: 0.0005 seconds
+Accuracy: 0.9909
+
+--- Quantum SVM ---
+Training time: 29.0447 seconds
+Prediction time: 26.3503 seconds
+Accuracy: 0.6727
+
+============================================================
+ANALYZING DIGITS 1 vs 2
+============================================================
+
+Comparing classifiers for digits 1 vs 2
+Dataset size: 359 samples
+
+--- Classical SVM (linear kernel) ---
+Training time: 0.0022 seconds
+Prediction time: 0.0005 seconds
+Accuracy: 0.9074
+
+--- Classical SVM (rbf kernel) ---
+Training time: 0.0031 seconds
+Prediction time: 0.0010 seconds
+Accuracy: 0.8981
+Traceback (most recent call last):
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
+    self.figure.set_size_inches(width, height, forward=False)
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
+    raise ValueError(f'figure size must be positive finite not {size}')
+ValueError: figure size must be positive finite not [10.   -0.24]
+Traceback (most recent call last):
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
+    self.figure.set_size_inches(width, height, forward=False)
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
+    raise ValueError(f'figure size must be positive finite not {size}')
+ValueError: figure size must be positive finite not [10.   -0.35]
+Traceback (most recent call last):
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
+    self.figure.set_size_inches(width, height, forward=False)
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
+    raise ValueError(f'figure size must be positive finite not {size}')
+ValueError: figure size must be positive finite not [10.   -0.25]
+Traceback (most recent call last):
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/backends/backend_macosx.py", line 105, in resize
+    self.figure.set_size_inches(width, height, forward=False)
+  File "/Users/ruka337/Library/Python/3.9/lib/python/site-packages/matplotlib/figure.py", line 3047, in set_size_inches
+    raise ValueError(f'figure size must be positive finite not {size}')
+ValueError: figure size must be positive finite not [10.   -0.09]
+
+--- Classical SVM (poly kernel) ---
+Training time: 0.0025 seconds
+Prediction time: 0.0006 seconds
+Accuracy: 0.8796
+
+--- Quantum SVM ---
+Training time: 30.3379 seconds
+Prediction time: 26.5962 seconds
+Accuracy: 0.6389
+
+============================================================
+ANALYZING DIGITS 0 vs 9
+============================================================
+
+Comparing classifiers for digits 0 vs 9
+Dataset size: 358 samples
+
+--- Classical SVM (linear kernel) ---
+Training time: 0.0012 seconds
+Prediction time: 0.0003 seconds
+Accuracy: 1.0000
+
+--- Classical SVM (rbf kernel) ---
+Training time: 0.0020 seconds
+Prediction time: 0.0006 seconds
+Accuracy: 1.0000
+
+--- Classical SVM (poly kernel) ---
+Training time: 0.0023 seconds
+Prediction time: 0.0005 seconds
+Accuracy: 0.9907
+
+--- Quantum SVM ---
+Training time: 29.7026 seconds
+Prediction time: 26.3122 seconds
+Accuracy: 0.7685
+
+================================================================================
+SUMMARY COMPARISON
+================================================================================
+
+Digit pair: 3_vs_4
+----------------------------------------
+Method          Accuracy   Train Time   Pred Time   
+--------------------------------------------------
+CSVM_linear     0.9818     0.0014       0.0004      
+CSVM_rbf        0.9909     0.0019       0.0006      
+CSVM_poly       0.9909     0.0025       0.0005      
+QSVM            0.6727     29.0447      26.3503     
+
+Digit pair: 1_vs_2
+----------------------------------------
+Method          Accuracy   Train Time   Pred Time   
+--------------------------------------------------
+CSVM_linear     0.9074     0.0022       0.0005      
+CSVM_rbf        0.8981     0.0031       0.0010      
+CSVM_poly       0.8796     0.0025       0.0006      
+QSVM            0.6389     30.3379      26.5962     
+
+Digit pair: 0_vs_9
+----------------------------------------
+Method          Accuracy   Train Time   Pred Time   
+--------------------------------------------------
+CSVM_linear     1.0000     0.0012       0.0003      
+CSVM_rbf        1.0000     0.0020       0.0006      
+CSVM_poly       0.9907     0.0023       0.0005      
+QSVM            0.7685     29.7026      26.3122
