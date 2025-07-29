@@ -16,3 +16,7 @@ pip install qiskit qiskit-aer qiskit-machine-learning scikit-learn matplotlib nu
 
 
 
+
+
+
+
