@@ -201,8 +201,9 @@ def prepare_data(digit1, digit2):
     
     return X_scaled, y, pca, scaler
 
+"""
 def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None, mesh_pred=None):
-    """Plot only data points (no decision boundary)"""
+
     plt.figure(figsize=(10, 8))
     
     # 仅绘制数据点
@@ -219,6 +220,89 @@ def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None, me
     
     plt.grid(True, alpha=0.3)
     plt.show()
+"""
+
+"""
+def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None):
+    h = 0.02  # mesh step size
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    
+    try:
+        # Predict over mesh grid
+        mesh_pred = classifier.predict(np.c_[xx.ravel(), yy.ravel()])
+        Z = mesh_pred.reshape(xx.shape)
+
+        plt.figure(figsize=(10, 8))
+        plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.RdYlBu)
+    except Exception as e:
+        print(f"Unable to plot decision boundary: {e}")
+        print("Showing data points only.")
+        plt.figure(figsize=(10, 8))
+
+    # Scatter actual points
+    scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.RdYlBu, edgecolors='k')
+    plt.colorbar(scatter)
+    plt.title(title)
+    plt.xlabel('First Principal Component')
+    plt.ylabel('Second Principal Component')
+
+    if pca_explained_ratio is not None:
+        plt.text(0.02, 0.98,
+                 f'PCA Explained Variance: {pca_explained_ratio[0]:.3f}, {pca_explained_ratio[1]:.3f}',
+                 transform=plt.gca().transAxes, verticalalignment='top',
+                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+    plt.grid(True, alpha=0.3)
+    plt.show()
+"""
+
+def plot_decision_boundary(X, y, classifier, title, pca_explained_ratio=None):
+    """Visualize data points and decision boundary, compatible with QSVM"""
+    h = 0.02  # mesh step size
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    
+    try:
+        input_points = np.c_[xx.ravel(), yy.ravel()]
+        # Handle classifiers that do not support batch predict
+        mesh_pred = []
+        for pt in input_points:
+            pred = classifier.predict([pt])  # predict expects a list of one sample
+            if isinstance(pred, (list, np.ndarray)):
+                mesh_pred.append(pred[0])  # extract label from list/array
+            else:
+                mesh_pred.append(pred)  # already a scalar
+        mesh_pred = np.array(mesh_pred)
+        Z = mesh_pred.reshape(xx.shape)
+
+        plt.figure(figsize=(10, 8))
+        plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.RdYlBu)
+    except Exception as e:
+        print(f"Unable to plot decision boundary: {e}")
+        print("Showing data points only.")
+        plt.figure(figsize=(10, 8))
+
+    # Scatter actual points
+    scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.RdYlBu, edgecolors='k')
+    plt.colorbar(scatter)
+    plt.title(title)
+    plt.xlabel('First Principal Component')
+    plt.ylabel('Second Principal Component')
+
+    if pca_explained_ratio is not None:
+        plt.text(0.02, 0.98,
+                 f'PCA Explained Variance: {pca_explained_ratio[0]:.3f}, {pca_explained_ratio[1]:.3f}',
+                 transform=plt.gca().transAxes, verticalalignment='top',
+                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
 
 
 def compare_classifiers(X, y, digit1, digit2, pca):
